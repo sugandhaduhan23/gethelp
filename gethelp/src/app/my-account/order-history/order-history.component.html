@@ -1,0 +1,324 @@
+<div class=" container col-12 col-lg-9 mt-5 py-5">
+
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="CREATED">
+            <mat-card class="mt-3" *ngFor="let workorder of workOrderList | filter : 'created'; let i = index">
+                <mat-card-header>
+                    <div class="d-none d-md-block w-100">
+                        <div class="d-flex justify-content-between matheader-font-size">
+                            <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                            <p><i class="fas fa-dollar-sign"></i> {{workorder.price}}/Hr</p>
+                            <p class="text-break"><i class="fas fa-hashtag"></i> {{workorder.id}}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none w-100">
+                        <div class="d-flex">
+                            <div>
+                                <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                                <p><i class="fas fa-dollar-sign"></i>{{workorder.price}}/Hr</p>
+                            </div>
+                            <p class="ms-auto text-break align-self-center"><i class="fas fa-hashtag"></i>
+                                {{workorder.id}}</p>
+                        </div>
+
+                    </div>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="pt-3">
+                    <div class="row">
+                        <div class="col-6 col-lg-4 align-self-center h-100">
+                            <div class="d-flex">
+                                <div class="pe-2 align-self-center">
+                                    <img *ngIf="role == 'customer'" referrerpolicy="no-referrer"
+                                        [src]="workorder.proPhoto" class="rounded-circle user-image" alt="">
+                                    <img *ngIf="role == 'pro'" referrerpolicy="no-referrer"
+                                        [src]="workorder.customerPhoto" class="rounded-circle user-image" alt="">
+                                </div>
+                                <div *ngIf="role == 'customer'" class="align-self-center">
+                                    <div class="h5"><i class="fas fa-tools"></i> {{workorder.categoryName}}</div>
+                                    <div class="h6"><i class="fas fa-hard-hat"></i> {{workorder.proName}}</div>
+                                    <div class="text-break"><b><i
+                                                class="fas fa-envelope me-2"></i></b>{{workorder.proEmail}}</div>
+                                </div>
+                                <div *ngIf="role == 'pro'" class="align-self-center">
+                                    <div class="lead mt-1">{{workorder.customerName}}</div>
+                                    <div class="mt-1 text-break">{{workorder.customerEmail}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fontsize-15 col-6 col-lg-4 border-start border-right-display align-self-center">
+                            <p> <i class="fas fa-clock pe-2 text-warning"></i>{{workorder.time}}</p>
+                            <p> <i class="fas fa-map-pin pe-2 text-warning"></i>{{workorder.address}}</p>
+                            <p> <i class="fas fa-ruler-combined pe-2 text-warning"></i>{{workorder.tasktypeName}}</p>
+                        </div>
+                        <div class="d-none d-lg-block col-lg-4 text-center align-self-center">
+                            <button mat-raised-button color="primary" (click)="openMessageDialog(workorder)"
+                                class="text-light mx-auto mb-2 d-block w-50">Message</button>
+                            <button mat-raised-button color="primary" class="text-light mx-auto mb-2 d-block w-50"
+                                *ngIf="role == 'pro'" (click)="checkIfProCanStart(workorder)">Start</button>
+                            <button mat-raised-button color="primary" class="text-light mx-auto mb-2 d-block w-50"
+                                (click)="checkCancelRescheduleWindow(workorder, 'reschedule')">Reschedule</button>
+                            <button mat-raised-button color="primary" class="text-light mx-auto d-block w-50"
+                                (click)="checkCancelRescheduleWindow(workorder, 'cancel')">Cancel</button>
+                        </div>
+                    </div>
+                    <mat-divider class="d-block d-lg-none mt-3"></mat-divider>
+                    <mat-card-actions align="end" class="d-block d-lg-none mt-4">
+                        <button mat-raised-button color="primary" class="text-light mb-2"
+                            (click)="openMessageDialog(workorder)">Message</button>
+                        <button mat-raised-button color="primary" class="text-light mb-2" *ngIf="role == 'pro'"
+                            (click)="checkIfProCanStart(workorder)">Start</button>
+                        <button mat-raised-button color="primary" class="text-light mb-2"
+                            (click)="checkCancelRescheduleWindow(workorder, 'reschedule')">Reschedule</button>
+                        <button mat-raised-button color="primary" class="text-light"
+                            (click)="checkCancelRescheduleWindow(workorder, 'cancel')">Cancel</button>
+                    </mat-card-actions>
+                    <div #msg *ngIf="workorder.display && errorMessage" class="alert alert-danger text-center mt-3 fade show"
+                        role="alert">
+                        {{errorMessage}}
+                    </div>
+                    <div #msg *ngIf="workorder.display && successMessage" class="alert alert-success text-center mt-3 fade show"
+                        role="alert">
+                        {{successMessage}}
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <div *ngIf="(workOrderList | filter : 'created')?.length <=0" class="text-center text-danger my-3">
+                No data found
+            </div>
+        </mat-tab>
+        <mat-tab label="IN PROGRESS">
+            <mat-card class="mt-3" *ngFor="let workorder of workOrderList | filter : 'inprogress'; let i = index">
+                <mat-card-header>
+                    <div class="d-none d-md-block w-100">
+                        <div class="d-flex justify-content-between matheader-font-size">
+                            <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                            <p><i class="fas fa-dollar-sign"></i> {{workorder.price}}/Hr</p>
+                            <p class="text-break"><i class="fas fa-hashtag"></i> {{workorder.id}}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none w-100">
+                        <div class="d-flex">
+                            <div>
+                                <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                                <p><i class="fas fa-dollar-sign"></i>{{workorder.price}}/Hr</p>
+                            </div>
+                            <p class="ms-auto text-break align-self-center"><i class="fas fa-hashtag"></i>
+                                {{workorder.id}}</p>
+                        </div>
+
+                    </div>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="pt-3">
+                    <div class="row">
+                        <div class="col-6 align-self-center h-100"
+                            [ngClass]="role == 'customer' ? 'col-lg-6' : 'col-lg-4'">
+                            <div class="d-flex">
+                                <div class="pe-2 align-self-center">
+                                    <img *ngIf="role == 'customer'" referrerpolicy="no-referrer"
+                                        [src]="workorder.proPhoto" class="rounded-circle user-image" alt="">
+                                    <img *ngIf="role == 'pro'" referrerpolicy="no-referrer"
+                                        [src]="workorder.customerPhoto" class="rounded-circle user-image" alt="">
+                                </div>
+                                <div *ngIf="role == 'customer'" class="align-self-center">
+                                    <div class="h5"><i class="fas fa-tools"></i> {{workorder.categoryName}}</div>
+                                    <div class="h6"><i class="fas fa-hard-hat"></i> {{workorder.proName}}</div>
+                                    <div class="text-break"><b><i
+                                                class="fas fa-envelope me-2"></i></b>{{workorder.proEmail}}</div>
+                                </div>
+                                <div *ngIf="role == 'pro'" class="align-self-center">
+                                    <div class="lead mt-1">{{workorder.customerName}}</div>
+                                    <div class="mt-1 text-break">{{workorder.customerEmail}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fontsize-15 col-6 border-start align-self-center"
+                            [ngClass]="role == 'customer' ? 'col-lg-6' : 'col-lg-4 border-right-display'">
+                            <p> <i class="fas fa-clock pe-2 text-warning"></i>{{workorder.time}}</p>
+                            <p> <i class="fas fa-map-pin pe-2 text-warning"></i>{{workorder.address}}</p>
+                            <p> <i class="fas fa-ruler-combined pe-2 text-warning"></i>{{workorder.tasktypeName}}</p>
+                        </div>
+                        <div *ngIf="role == 'pro'" class="d-none d-lg-block col-lg-4 text-center align-self-center">
+                            <button mat-raised-button color="primary" class="text-light mx-auto mb-2 w-50"
+                                (click)="openPriceUpdateDialog(workorder)">Complete</button>
+                        </div>
+                    </div>
+                    <mat-divider *ngIf="role == 'pro'" class="d-block d-lg-none mt-3"></mat-divider>
+                    <mat-card-actions *ngIf="role == 'pro'" align="end" class="d-block d-lg-none mt-4">
+                        <button mat-raised-button color="primary" class="text-light mb-2"
+                            (click)="openPriceUpdateDialog(workorder)">Complete</button>
+                    </mat-card-actions>
+                    <!-- <div #msg *ngIf="workorder.display" class="alert alert-danger text-center mt-3 fade show"
+                        role="alert">
+                        Reschedule/Cancel allowed 3 hours before the service
+                    </div> -->
+                </mat-card-content>
+            </mat-card>
+            <div *ngIf="(workOrderList | filter : 'inprogress')?.length <=0" class="text-center text-danger my-3">
+                No data found
+            </div>
+        </mat-tab>
+        <mat-tab label="COMPLETED">
+            <mat-card class="mt-3" *ngFor="let workorder of workOrderList | filter : 'complete'; let i = index">
+                <mat-card-header>
+                    <div class="d-none d-md-block w-100">
+                        <div class="d-flex justify-content-between matheader-font-size">
+                            <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                            <p><i class="fas fa-dollar-sign"></i> {{workorder.price}}/Hr</p>
+                            <p><i class="fas fa-clock"></i> {{workorder.totalTime}}</p>
+                            <p class="text-break"><i class="fas fa-hashtag"></i> {{workorder.id}}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none w-100">
+                        <div class="d-flex">
+                            <div>
+                                <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                                <p><i class="fas fa-clock"></i>{{workorder.time}}</p>
+                            </div>
+                            <div class="ms-auto">
+                                <p class="text-break"><i class="fas fa-hashtag"></i> {{workorder.id}}</p>
+                                <p><i class="fas fa-dollar-sign"></i>{{workorder.price}}/Hr</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="pt-3">
+                    <div class="row">
+                        <div class="col-6 col-lg-4 align-self-center h-100">
+                            <div class="d-flex">
+                                <div class="pe-2 align-self-center">
+                                    <img *ngIf="role == 'customer'" referrerpolicy="no-referrer"
+                                        [src]="workorder.proPhoto" class="rounded-circle user-image" alt="">
+                                    <img *ngIf="role == 'pro'" referrerpolicy="no-referrer"
+                                        [src]="workorder.customerPhoto" class="rounded-circle user-image" alt="">
+                                </div>
+                                <div *ngIf="role == 'customer'" class="align-self-center">
+                                    <div class="h5"><i class="fas fa-tools"></i> {{workorder.categoryName}}</div>
+                                    <div class="h6"><i class="fas fa-hard-hat"></i> {{workorder.proName}}</div>
+                                    <div class="text-break"><b><i
+                                                class="fas fa-envelope me-2"></i></b>{{workorder.proEmail}}</div>
+                                </div>
+                                <div *ngIf="role == 'pro'" class="align-self-center">
+                                    <div class="lead mt-1">{{workorder.customerName}}</div>
+                                    <div class="mt-1 text-break">{{workorder.customerEmail}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fontsize-15 col-6 col-lg-4 border-start border-right-display align-self-center">
+                            <p> <i class="fas fa-clock pe-2 text-warning"></i>{{workorder.time}}</p>
+                            <p> <i class="fas fa-map-pin pe-2 text-warning"></i>{{workorder.address}}</p>
+                            <p> <i class="fas fa-ruler-combined pe-2 text-warning"></i>{{workorder.tasktypeName}}</p>
+                        </div>
+                        <div class="d-none d-lg-block col-lg-4 text-center align-self-center">
+                            <button mat-raised-button color="primary" (click)="openMessageDialog(workorder)"
+                                class="text-light mb-2 d-block mx-auto w-50">Message</button>
+                            <button mat-raised-button color="primary" class="text-light mb-2 d-block mx-auto w-50"
+                                *ngIf="role == 'customer'" (click)="navigateToProfile(workorder)">Hire
+                                Again</button>
+                            <button mat-raised-button color="primary" class="text-light mb-2 d-block mx-auto w-50"
+                                *ngIf="role == 'customer'" (click)="openAddReviewComponent(workorder)">Add
+                                Review</button>
+                        </div>
+                    </div>
+                    <mat-divider class="d-block d-lg-none mt-3"></mat-divider>
+                    <mat-card-actions align="end" class="d-block d-lg-none mt-4">
+                        <button mat-raised-button color="primary" class="text-light mb-2"
+                            (click)="openMessageDialog(workorder)">Message</button>
+                        <button mat-raised-button color="primary" class="text-light" *ngIf="role == 'customer'"
+                            (click)="navigateToProfile(workorder)">Hire Again</button>
+                        <button mat-raised-button color="primary" class="text-light" *ngIf="role == 'customer'"
+                            (click)="openAddReviewComponent(workorder)">Add Review</button>
+                    </mat-card-actions>
+                </mat-card-content>
+                <div #msg *ngIf="workorder.display && successMessage" class="alert alert-success text-center mt-3 fade show" role="alert">
+                    {{successMessage}}
+                </div>
+            </mat-card>
+            <div *ngIf="(workOrderList | filter : 'complete')?.length <=0" class="text-center text-danger my-3">
+                No data found
+            </div>
+        </mat-tab>
+        <mat-tab label="CANCELLED">
+            <mat-card class="mt-3" *ngFor="let workorder of workOrderList | filter : 'cancelled'; let i = index">
+                <mat-card-header>
+                    <div class="d-none d-md-block w-100">
+                        <div class="d-flex justify-content-between matheader-font-size">
+                            <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                            <p><i class="fas fa-dollar-sign"></i> {{workorder.price}}/Hr</p>
+                            <p class="text-break"><i class="fas fa-hashtag"></i> {{workorder.id}}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none w-100">
+                        <div class="d-flex">
+                            <div>
+                                <p><i class="fas fa-calendar-week"></i> {{workorder.date}}</p>
+                                <p><i class="fas fa-dollar-sign"></i>{{workorder.price}}/Hr</p>
+                            </div>
+                            <p class="ms-auto text-break align-self-center"><i class="fas fa-hashtag"></i>
+                                {{workorder.id}}</p>
+                        </div>
+
+                    </div>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="pt-3">
+                    <div class="row">
+                        <div class="col-6 col-lg-4 align-self-center h-100">
+                            <div class="d-flex">
+                                <div class="pe-2 align-self-center">
+                                    <img *ngIf="role == 'customer'" referrerpolicy="no-referrer"
+                                        [src]="workorder.proPhoto" class="rounded-circle user-image" alt="">
+                                    <img *ngIf="role == 'pro'" referrerpolicy="no-referrer"
+                                        [src]="workorder.customerPhoto" class="rounded-circle user-image" alt="">
+                                </div>
+                                <div *ngIf="role == 'customer'" class="align-self-center">
+                                    <div class="h5"><i class="fas fa-tools"></i> {{workorder.categoryName}}</div>
+                                    <div class="h6"><i class="fas fa-hard-hat"></i> {{workorder.proName}}</div>
+                                    <div class="text-break"><b><i
+                                                class="fas fa-envelope me-2"></i></b>{{workorder.proEmail}}</div>
+                                </div>
+                                <div *ngIf="role == 'pro'" class="align-self-center">
+                                    <div class="lead mt-1">{{workorder.customerName}}</div>
+                                    <div class="mt-1 text-break">{{workorder.customerEmail}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fontsize-15 col-6 col-lg-4 border-start border-right-display align-self-center">
+                            <p> <i class="fas fa-clock pe-2 text-warning"></i>{{workorder.time}}</p>
+                            <p> <i class="fas fa-map-pin pe-2 text-warning"></i>{{workorder.address}}</p>
+                            <p> <i class="fas fa-ruler-combined pe-2 text-warning"></i>{{workorder.tasktypeName}}</p>
+                        </div>
+                        <div class="d-none d-lg-block col-lg-4 text-center align-self-center">
+                            <button mat-raised-button color="primary" (click)="openMessageDialog(workorder)"
+                                class="text-light d-block mb-2 mx-auto w-50">Message</button>
+                            <button mat-raised-button color="primary" class="text-light d-block mb-2 mx-auto w-50"
+                                *ngIf="role == 'customer'" (click)="openAddReviewComponent(workorder)">Add
+                                Review</button>
+                        </div>
+                    </div>
+                    <mat-divider class="d-block d-lg-none mt-3"></mat-divider>
+                    <mat-card-actions align="end" class="d-block d-lg-none mt-4">
+                        <button mat-raised-button color="primary" class="text-light mb-2"
+                            click="openMessageDialog(workorder)">Message</button>
+                        <button mat-raised-button color="primary" class="text-light" *ngIf="role == 'customer'"
+                            ((click))="openAddReviewComponent(workorder)">Add Review</button>
+                    </mat-card-actions>
+                </mat-card-content>
+                <div #msg *ngIf="workorder.display && successMessage" class="alert alert-success text-center mt-3 fade show" role="alert">
+                    {{successMessage}}
+                </div>
+            </mat-card>
+
+            <div *ngIf="(workOrderList | filter : 'cancelled')?.length <=0" class="text-center text-danger my-3">
+                No data found
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

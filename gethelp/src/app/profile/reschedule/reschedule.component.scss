@@ -1,0 +1,13 @@
+i,
+::ng-deep .mat-icon-button,
+mat-icon {
+  color: var(--bs-warning) !important;
+}
+
+::ng-deep mat-timepicker-dialog .header {
+  color: white !important;
+}
+
+::ng-deep mat-timepicker-dialog .placeholder {
+  opacity: 0 !important;
+}

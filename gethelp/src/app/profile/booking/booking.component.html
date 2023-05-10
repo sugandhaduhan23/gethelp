@@ -1,0 +1,73 @@
+<div class="container booking-container" *ngIf="workorder && !workOrderCancelled">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-6 me-lg-2">
+      <mat-card class="example-card h-100">
+        <mat-card-content class="h-100">
+          <iframe width="100%" height="100%" style="border:0" loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade" [src]="workorder.maplocation | safe">
+          </iframe>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-lg-0 mt-3">
+      <mat-card>
+        <mat-card-content>
+          <div class="row p-3">
+            <div class="col-4 col-md-12 col-lg-3 text-end text-md-center text-lg-end">
+              <img [src]="workorder.proPhoto" class="rounded-circle user-image" alt="">
+            </div>
+            <div class="col-8 col-md-12 col-lg-9 text-start text-md-center text-lg-start">
+              <div class="h5"><i class="fas fa-tools"></i> {{workorder.categoryName}}</div>
+              <div class="h6"><i class="fas fa-hard-hat"></i> {{workorder.proName}}</div>
+            </div>
+
+          </div>
+          <mat-divider></mat-divider>
+          <div class="row p-3">
+            <p> <i class="fas fa-calendar-week pe-2"></i>{{workorder.date +' '+ workorder.time}}</p>
+            <p> <i class="fas fa-map-pin pe-2"></i>{{workorder.address}}</p>
+            <p> <i class="fas fa-ruler-combined pe-2"></i>{{workorder.tasktypeName}}</p>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="p-3">
+            <div class="lead"><i class="fas fa-tags"></i><b> Price Details</b></div>
+            <div class="row pt-4">
+              <p class="col">Hourly Rate</p>
+              <p class="col text-end">${{workorder.price}}/Hr</p>
+            </div>
+
+          </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions class="text-center">
+          <button mat-raised-button color="primary" class="text-light"
+            (click)="checkCancelRescheduleWindow('reschedule')">Reschedule</button>
+          <button mat-raised-button color="primary" class="text-light"
+            (click)="checkCancelRescheduleWindow('cancel')">Cancel</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <div #errorAlert *ngIf="errorMessage" class="alert alert-danger text-center mt-3 fade show" role="alert">
+    Reschedule/Cancel allowed 3 hours before the service
+  </div>
+</div>
+
+
+
+<div class="container booking-container" *ngIf="workOrderCancelled">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-6 text-center">
+      <mat-card>
+        <mat-card-content class="h5 lead">
+          Your service has been cancelled successfully. Please click the button below to book another service.
+        </mat-card-content>
+
+        <mat-card-actions class="text-center">
+          <button mat-raised-button color="primary" class="text-light" (click)="navigateToHome()">Home</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

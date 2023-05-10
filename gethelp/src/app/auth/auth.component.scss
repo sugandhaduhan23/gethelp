@@ -1,0 +1,69 @@
+.dash {
+  margin: 0px 2px;
+}
+
+.dash::before,
+.dash::after {
+  content: "";
+  display: block;
+  flex: 1 1;
+  background: black;
+  height: 1px;
+}
+
+.dash::before {
+  margin-right: 16px;
+}
+
+.dash::after {
+  margin-left: 16px;
+}
+
+
+button {
+  border: solid 2px;
+  padding: .5rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+
+.card1 {
+  height: 600px;
+  width:auto;
+  position: relative;
+  border-radius: 0.25rem;
+}
+
+.backHeight{
+  height: 400px;
+}
+
+.cardFront,
+.cardBack {
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+  height: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  width: 100%;
+  transition: transform 0.5s ease;
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.cardBack {
+  transform: perspective(1000px) rotateY(180deg);
+}
+
+.cardBack.flipped {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.cardFront {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.cardFront.flipped {
+  transform: perspective(1000px) rotateY(-180deg);
+}
+

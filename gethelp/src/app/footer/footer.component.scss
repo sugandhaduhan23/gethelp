@@ -1,0 +1,22 @@
+p,
+a {
+  font-size: var(--bs-body-font-size);
+}
+
+h3 {
+  font-size: 1.5rem !important;
+}
+
+
+.link-animated a {
+  transition: 0.5s;
+}
+
+.link-animated a:hover {
+  padding-left: 10px;
+}
+
+.copyright {
+  background: #061429;
+  line-height: 4rem;
+}

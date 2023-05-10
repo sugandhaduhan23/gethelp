@@ -1,0 +1,180 @@
+<!-- Profile About Section -->
+<div class="container profile-container" *ngIf="profile">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-6">
+            <div class="row">
+                <div class="col-12">
+                    <mat-card class="social-prof">
+                        <div class="wrapper">
+                            <img *ngIf="profile.profilePhoto" [src]="profile.profilePhoto" alt="" class="user-profile">
+                            <h3>{{profile.name}}</h3>
+                            <p>{{profile.bio}}</p>
+                            <rating [rating]="profile.rating || 0"></rating>
+                        </div>
+                        <mat-card-content>
+                            <br>
+                            <br>
+                            <p class="text-start h5">ABOUT</p>
+                            <p class="text-start">{{profile.about}}</p>
+                            <mat-divider></mat-divider>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="shareBtn d-inline-block">
+                                <button mat-raised-button color="primary"
+                                    class=" effect effect-4 text-light">SHARE</button>
+                                <div class="share">
+                                    <share-buttons [theme]="'circles-dark'"
+                                        [include]="['copy', 'facebook', 'email', 'messenger', 'sms', 'telegram', 'whatsapp']"
+                                        [showIcon]="true" [showText]="false" description="GetHelp Profile" class="pt-3">
+                                    </share-buttons>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                        <mat-card-footer>
+                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                        </mat-card-footer>
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12 col-xl-6">
+                    <mat-card class="profile-details">
+                        <mat-card-header>
+                            <mat-card-title>Overview</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-list>
+                                <mat-list-item><i class="fas fa-star pe-2"></i>Current Top Pro</mat-list-item>
+                                <mat-list-item><i class="fas fa-trophy pe-2"></i>Hired {{profile.numOfHires}} times</mat-list-item>
+                                <mat-list-item><i class="fas fa-map-marker-alt pe-2"></i> &nbsp;35 similar jobs done near you</mat-list-item>
+                                <mat-list-item><i class="fas fa-user-check pe-2"></i>{{profile.backgroundcheck ? 'Background Checked' : 'Yet to be Verified'}}</mat-list-item>
+                                <mat-list-item><i class="fas fa-users pe-2"></i>{{profile.employees}} employee(s)</mat-list-item>
+                                <mat-list-item><i class="fas fa-clock pe-2"></i>{{profile.yearsinbusiness}} year(s) in business</mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-12 col-xl-6 mt-3 mt-xl-0">
+                    <mat-card class="h-100 profile-details">
+                        <mat-card-header>
+                            <mat-card-title>Payment Method</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-list>
+                                <mat-list-item>{{profile.paymentMethod?.join(', ')}}</mat-list-item>
+                                <mat-list-item class="mt-3"><b>Social</b></mat-list-item>
+                                <mat-list-item *ngFor="let s of profile?.social">
+                                   <a href="https://www.facebook.com/profile.php?id=100090450944132" target="_blank">{{s?.name}}</a>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <!-- End of Profile About Section -->
+
+        <!-- Scheduling Section -->
+        <div class="col-12 col-md-6 col-lg-4 mt-3 mt-md-0">
+            <mat-card class="h-100">
+                <mat-card-header class="d-flex justify-content-end  ">
+                    <mat-card-title class="animate-character"> {{'$' + profile.serviceCost + '/Hr'}}</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="d-flex justify-content-center pt-5">
+                    <form [formGroup]="bookingForm" (ngSubmit)="hireProfessional()">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Task Type</mat-label>
+                            <mat-select name="taskType" formControlName="taskType">
+                                <mat-option *ngFor="let tt of tasktype" [value]="tt.id">
+                                    {{tt.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="bookingForm.controls['taskType'].invalid">
+                                <div *ngIf="f?.['taskType']?.errors?.['required']">Select a Task Type</div>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Date of Booking</mat-label>
+                            <input matInput [matDatepicker]="dojpicker" [min]="minDate" formControlName="bookingDate">
+                            <mat-datepicker-toggle matSuffix [for]="dojpicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dojpicker></mat-datepicker>
+                            <mat-error *ngIf="bookingForm.controls['bookingDate'].invalid">
+                                <div *ngIf="f?.['bookingDate']?.errors?.['required']">Select a Booking Date</div>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Booking Time</mat-label>
+                            <input matTimepicker #t="matTimepicker" [strict]="true" name="time" [color]="'primary'" [mode]="'12h'" formControlName="bookingTime">
+                            <mat-icon matSuffix>watch_later</mat-icon>
+                            <mat-error *ngIf="bookingForm.controls['bookingTime'].invalid">
+                                <div *ngIf="f?.['bookingTime']?.errors?.['required']">Select a Booking Time</div>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <textarea matInput style="resize: none;" formControlName="address"></textarea>
+                            <mat-error *ngIf="bookingForm.controls['address'].invalid">
+                                <div *ngIf="f?.['address']?.errors?.['required']">Enter an address</div>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field  appearance="outline">
+                            <mat-label>Additional Details</mat-label>
+                            <textarea matInput style="resize: none;" formControlName="additionalDetails"></textarea>
+                         </mat-form-field>
+
+                        <div class="text-center">
+                            <button mat-raised-button color="primary" class="text-light" type="submit" [disabled]="!bookingForm.valid">Book</button>
+                        </div>
+                    </form>
+                </mat-card-content>
+                <!-- <mat-divider></mat-divider>
+                <p class="p-3 pb-0 footnote">
+                    You can connect over phone to adjust task details or change start time after booking.
+                </p> -->
+            </mat-card>
+        </div>
+        <!-- End of Scheduling Section -->
+    </div>
+
+    <!-- Featured Photos Section -->
+    <div class="row d-flex justify-content-center" *ngIf="profile.featuredPhoto && profile.featuredPhoto.length">
+        <div class="col-12 col-lg-10 mt-3">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title> Featured Photos</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <carousel class="featuredphoto" [images]="profile.featuredPhoto">
+                    </carousel>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <!-- End of Featured Photos Section -->
+
+        <!-- Review Section -->
+        <div class="col-12 col-lg-10 mt-3" *ngIf="reviews && reviews.length">
+            <mat-card>
+                <mat-card-header class="mb-3">
+                    <mat-card-title> Reviews ({{reviews.length}})</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <app-review
+                    *ngFor="let review of reviews | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+                    [review]="review" [limit]=200>
+                </app-review>
+                <div *ngIf="reviews">
+                    <ngb-pagination class="d-flex justify-content-center" [pageSize]="pageSize"
+                    [collectionSize]="reviews.length" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
+                </div>
+                
+            </mat-card>
+        </div>
+        <!-- End of Review Section -->
+    </div>
+</div>

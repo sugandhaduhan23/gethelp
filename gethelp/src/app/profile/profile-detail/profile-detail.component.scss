@@ -1,0 +1,159 @@
+$basePadding: 4em;
+.profile-container {
+    padding-top: $basePadding * 3;
+    padding-bottom: $basePadding;
+}
+
+.social-profile {
+    color: #fff;
+}
+
+.social-profile a {
+    color: #fff;
+}
+
+.social-profile {
+    position: relative;
+    margin-bottom: 150px;
+}
+
+.social-profile .user-profile {
+    position: absolute;
+    bottom: -75px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    left: 50px;
+}
+
+.social-nav {
+    position: absolute;
+    bottom: 0;
+}
+
+.social-prof {
+    color: #333;
+    text-align: center;
+}
+
+.social-prof .wrapper {
+    width: 70%;
+    margin: auto;
+    margin-top: -100px;
+}
+
+.social-prof img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 5px solid #fff;
+    object-fit: cover;
+}
+
+.social-prof h3 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.social-prof .nav-tabs {
+    border: none;
+}
+
+.profile-container .mat-list {
+    .mat-list-item {
+        height: 25px; 
+        font-size:14px;
+    }
+}
+
+.user-image{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    object-position: top;
+}
+
+ngb-pagination ::ng-deep  ul > li:not(.active) > a, i {
+    color: var(--bs-warning)!important;
+}
+
+ ngb-pagination ::ng-deep ul > li.active > a {
+    color: var(--bs-pagination-active-color)!important;
+    background-color: var(--bs-warning)!important;
+    border-color: var(--bs-waring)!important;
+}
+
+.share {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: transform 0.5s, opacity 0.5s;
+    position: absolute;
+    margin-left:-9999px;
+  }
+  
+.shareBtn:hover .share {  
+    position: relative;
+    margin-left:0px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.review-photos{
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+}
+
+.animate-character
+{
+  background-image: linear-gradient(
+    -225deg,
+    #eda93b 0%,
+    #d46c50 29%,
+    #e66d0a 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+ // display: inline-block;
+  font-size: 40px;
+  line-height: 40px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.mat-form-field{
+    display: inherit;
+}
+
+i, ::ng-deep .mat-icon-button, mat-icon {
+  color: var(--bs-warning) !important;
+}
+
+::ng-deep mat-timepicker-dialog .header{
+    color: white!important;
+}
+
+::ng-deep mat-timepicker-dialog .placeholder{
+    opacity: 0!important;
+}
+
+.footnote{
+    font-size:12px
+}
+
+.featuredphoto{
+    z-index: inherit;
+}

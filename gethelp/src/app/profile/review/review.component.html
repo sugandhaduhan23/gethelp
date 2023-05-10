@@ -1,0 +1,29 @@
+<mat-card-content class="py-5 px-sm-5 pt-3 pb-0">
+    <div class="d-flex">
+        <div class="pe-2">
+            <img [src]="review.profilePhoto" class="rounded-circle user-image" alt="">
+        </div>
+        <div class="align-self-center">
+            <div class="lead">{{review.postedBy}}</div>
+            <rating [rating]="review.rating || 0"></rating>
+        </div>
+        <div class="align-self-center ms-auto p-2">
+            <div class="text-muted">{{review.postedOn}}</div>
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div>{{content}}</div>
+            <a class="float-end" *ngIf="!isContentToggled && content.length > limit" (click)="toggleContent()" i18n>Read More</a>
+            <a class="float-end" *ngIf="isContentToggled && content.length > limit" (click)="toggleContent()" i18n>Read Less</a>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap py-3" *ngIf="review.photos">
+        <img *ngFor="let image of review.photos" [src]="image" class="m-1 border border-warning review-photos">
+    </div>
+
+    <mat-divider></mat-divider>
+</mat-card-content>

@@ -1,0 +1,195 @@
+<div class="container-fluid profile-container my-4 mt-lg-5 pt-md-5">
+    <div class="row">
+
+        <div class="col-12 d-block d-md-none accordion accordion-flush">
+            <div class="text-center">
+                <button mat-stroked-button color="primary" class="collapsed text-warning" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Apply Filters  <i class="fas fa-filter"></i>
+                </button>
+            </div>
+            <div class="accordion-item">
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <mat-card class="h-100 mat-elevation-z0">
+                        <mat-card-header>
+                            <mat-card-title>Sort By:</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content class="mb-4">
+                            <mat-list>
+                                <mat-list-item *ngFor="let sortOption of sortConfig;">
+                                    <mat-checkbox [checked]="selectedSortOptionValue === sortOption.value"
+                                        [(ngModel)]="sortOption.checked" color="warn"
+                                        (ngModelChange)="selectedSortOptionValue = sortOption.value; onSortOptionChange(sortOption.value)">
+                                        {{sortOption.name}}
+                                    </mat-checkbox>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                        <mat-divider></mat-divider>
+                        <mat-card-header class="py-4">
+                            <mat-card-title>Price</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <ngx-slider [(value)]="filterDefaultValue" [(highValue)]="filterHighestValue"
+                                [options]="filterOptions" (valueChange)="onFilterValueChange()"
+                                (highValueChange)="onFilterValueChange()"></ngx-slider>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="filter-large col-4 d-none d-md-block col-lg-3">
+            <mat-card class="h-auto">
+                <mat-card-header>
+                    <mat-card-title>Sort By:</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="mb-4">
+                    <mat-list>
+                        <mat-list-item *ngFor="let sortOption of sortConfig;">
+                            <mat-checkbox [checked]="selectedSortOptionValue === sortOption.value"
+                                [(ngModel)]="sortOption.checked" color="warn"
+                                (ngModelChange)="selectedSortOptionValue = sortOption.value; onSortOptionChange(sortOption.value)">
+                                {{sortOption.name}}
+                            </mat-checkbox>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <mat-card-header class="py-4">
+                    <mat-card-title>Price</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ngx-slider [(value)]="filterDefaultValue" [(highValue)]="filterHighestValue"
+                        [options]="filterOptions" (valueChange)="onFilterValueChange()"
+                        (highValueChange)="onFilterValueChange()"></ngx-slider>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9">
+            <div class="row">
+                <div class="col-6 col-lg-3 d-none d-md-block">
+                    <mat-card class="h-100">
+                        <mat-card-content>
+                            <div class="d-flex">
+                                <div class="align-self-center display-6">
+                                    <i class="fa fa-tasks text-warning"></i>
+                                </div>
+                                <div class="align-self-center h5 ms-auto text-end">
+                                    {{additionalServiceInfo.totalTasksCompleted}}
+                                    <br>
+                                    <span class="h6">Tasks Completed</span>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-6 col-lg-3 d-none d-md-block">
+                    <mat-card class="h-100">
+                        <mat-card-content>
+                            <div class="d-flex">
+                                <div class="align-self-center display-6">
+                                    <i class="fa fa-users text-warning"></i>
+                                </div>
+                                <div class="align-self-center h5 ms-auto text-end">
+                                    {{additionalServiceInfo.totalHelpersAvailable}}
+                                    <br>
+                                    <span class="h6">Helpers Available</span>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="my-3 d-none d-md-block d-lg-none">
+                </div>
+                <div class="col-6 col-lg-3 d-none d-md-block">
+                    <mat-card class="h-100">
+                        <mat-card-content>
+                            <div class="d-flex">
+                                <div class="align-self-center display-6 icon-warning">
+                                    <i class="fa fa-money-bill text-warning "></i>
+                                </div>
+                                <div class="align-self-center h5 ms-auto text-end">
+                                    ${{additionalServiceInfo.averageCost.toFixed(2)}}
+                                    <br>
+                                    <span class="h6">Average Cost</span>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-6 col-lg-3 d-none d-md-block">
+                    <mat-card class="h-100">
+                        <mat-card-content>
+                            <div class="d-flex">
+                                <div class="align-self-center display-6 icon-warning">
+                                    <i class="fa fa-heart text-danger "></i>
+                                </div>
+                                <div class="align-self-center h5 ms-auto text-end">
+                                    {{additionalServiceInfo.averageRating}}
+                                    <br>
+                                    <span class="h6">Average Rating</span>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col" *ngIf="!isLoading && profiles?.length">
+                    <profile-listing *ngFor="let profile of profiles; trackBy: trackProfileListingBy"
+                        [profile]="profile" [category]="category">
+                    </profile-listing>
+                </div>
+                <!-- Ghost image -->
+
+                <div class="col" *ngIf="!!isLoading" class="ghost-profile" [ngClass]="{'is-loading': !!isLoading}">
+                    <mat-card *ngFor="let i of [].constructor(5)" class="card">
+                        <div class="card_header">
+                            <div class="header_img skeleton"></div>
+
+                            <div class="info">
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton  skeleton-text"></div>
+                            </div>
+
+                            <div class="info">
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text"></div>
+                            </div>
+                        </div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text"></div>
+                    </mat-card>
+                </div>
+            </div>
+       
+        </div>
+    
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

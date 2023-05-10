@@ -1,0 +1,80 @@
+$brandColor: #ffc107;
+.profile-image-modal-wrapper {
+  &.is-inprogress {
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader {
+      border: 16px solid $brandColor; /* Light grey */
+      border-top: 16px solid grey; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      margin: 4em 6em auto;
+      position: absolute;
+      z-index: 1;
+    }
+  
+
+    .overlay {
+      opacity: 0.5;
+      cursor: not-allowed;
+      position: relative;
+      width: max-content;
+      height: max-content;
+      
+      .mat-dialog-content,
+      input,
+      button {
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  img {
+    width: 8em;
+    height: 8em;
+    border-radius: 50% 50%;
+  }
+
+
+  .file-upload-container {
+    position: relative;
+    display: inline-block;
+    margin: 0 1.5em;
+    input[type=file] {
+      opacity: 0;
+      height: 3em;
+      z-index: 1;
+      position: relative;
+    }
+  
+    .custom-input-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 1.2em;
+      border: 1px solid;
+      padding: 0.2em;
+      width: 8em;
+    }
+  }
+  
+
+  .mat-dialog-actions {
+    justify-content: end;
+  }
+
+  h4 {
+    margin: 0 -1em;
+    padding: 0 1em 1em 1em;
+    border-bottom: 1px solid;
+  }
+
+  
+}

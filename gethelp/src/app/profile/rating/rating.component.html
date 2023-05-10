@@ -1,0 +1,19 @@
+<div>
+    <!-- <b-form-rating id="rating-inline" inline >{{rating}} </b-form-rating> -->
+
+    <!-- Note: default template for star rating (if heartbeat rating not feasible, will revert back to the basic rating) -->
+    <!-- <ngb-rating [rate]="rating"></ngb-rating> -->
+
+    <rating-heart class="rating-heart" [stopColor]="'red'" *ngFor="let item of ratingArray ; index as i">
+    </rating-heart>
+
+    <rating-heart *ngIf="hasPartial" class="rating-heart" [stopColor]="'lightgray'">
+    </rating-heart>
+   
+    <span *ngIf="showEmptyHearts">
+        <rating-heart  class="rating-heart" [showEmptyHeart]= true [startColor]="'lightgray'" [stopColor]="'lightgray'" *ngFor="let n of number">
+        </rating-heart>
+    </span>
+   
+    ({{rating}})
+</div>

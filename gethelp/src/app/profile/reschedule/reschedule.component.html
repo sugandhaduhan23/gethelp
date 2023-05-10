@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Reschedule Service</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="bookingForm" (ngSubmit)="rescheduleService()">
+        <div class="row d-flex flex-column">
+            <mat-form-field appearance="outline">
+                <mat-label>Date of Booking</mat-label>
+                <input matInput [matDatepicker]="dojpicker" [min]="minDate" formControlName="bookingDate">
+                <mat-datepicker-toggle matSuffix [for]="dojpicker"></mat-datepicker-toggle>
+                <mat-datepicker #dojpicker></mat-datepicker>
+                <mat-error *ngIf="bookingForm.controls['bookingDate'].invalid">
+                    <div *ngIf="f?.['bookingDate']?.errors?.['required']">Select a Booking Date</div>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Booking Time</mat-label>
+                <input matTimepicker #t="matTimepicker" [strict]="true" name="time" [color]="'primary'" [mode]="'12h'" formControlName="bookingTime">
+                <mat-icon matSuffix>watch_later</mat-icon>
+                <mat-error *ngIf="bookingForm.controls['bookingTime'].invalid">
+                    <div *ngIf="f?.['bookingTime']?.errors?.['required']">Select a Booking Time</div>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <textarea matInput style="resize: none;" formControlName="address"></textarea>
+                <mat-error *ngIf="bookingForm.controls['address'].invalid">
+                    <div *ngIf="f?.['address']?.errors?.['required']">Enter an address</div>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field  appearance="outline">
+                <mat-label>Additional Details</mat-label>
+                <textarea matInput style="resize: none;" formControlName="additionalDetails"></textarea>
+             </mat-form-field>
+    
+        </div>
+       
+         <mat-dialog-actions align="end">
+            <button mat-raised-button color="primary" class="text-light" mat-dialog-close type="submit">Reschedule</button>
+            <button mat-raised-button class="text-warning" [mat-dialog-close]="true">Cancel</button>
+         </mat-dialog-actions>
+    </form>
+</mat-dialog-content>

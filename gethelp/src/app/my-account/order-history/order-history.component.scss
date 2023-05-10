@@ -1,0 +1,32 @@
+.card-header-background{
+    background-color: lightgray;
+}
+
+.user-image{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    object-position: top;
+}   
+
+.matheader-font-size{
+    font-size: 18px;
+}
+
+.fontsize-15{
+    font-size: 15px;
+}
+
+::ng-deep .mat-card-header-text{
+    margin: 0!important;
+}
+
+.border-right-display{
+    border-right: unset!important;
+}
+
+@media (min-width: 991px) {
+    .border-right-display{
+        border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
+    }
+}

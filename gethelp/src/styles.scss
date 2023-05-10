@@ -1,0 +1,130 @@
+html,
+body {
+  margin: 0;
+  background: #f9fafb;
+  height: 100%;
+}
+
+h1,
+h1 {
+  font-size: calc(1.375rem + 1.5vw) !important;
+  line-height: 3rem !important;
+}
+
+.h4,
+h4 {
+  font-size: calc(1.275rem + 0.3vw) !important;
+}
+
+h3,
+h3 {
+  font-size: calc(1.3rem + 0.6vw) !important;
+}
+
+h5,
+.h5 {
+  font-size: 1.25rem !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+/*** Section Title ***/
+.section-title::before {
+  position: absolute;
+  content: "";
+  width: 150px;
+  height: 5px;
+  left: 0;
+  bottom: 0;
+  background: var(--bs-warning);
+  border-radius: 2px;
+}
+
+.section-title.text-center::before {
+  left: 50%;
+  margin-left: -75px;
+}
+
+.section-title.section-title-sm::before {
+  width: 90px;
+  height: 3px;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: 6px;
+  height: 5px;
+  bottom: 0px;
+  background: #ffffff;
+  -webkit-animation: section-title-run 5s infinite linear;
+  animation: section-title-run 5s infinite linear;
+}
+
+.section-title.section-title-sm::after {
+  width: 4px;
+  height: 3px;
+}
+
+.section-title.text-center::after {
+  -webkit-animation: section-title-run-center 5s infinite linear;
+  animation: section-title-run-center 5s infinite linear;
+}
+
+.section-title.section-title-sm::after {
+  -webkit-animation: section-title-run-sm 5s infinite linear;
+  animation: section-title-run-sm 5s infinite linear;
+}
+
+@keyframes section-title-run {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: 145px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes section-title-run-center {
+  0% {
+    left: 50%;
+    margin-left: -75px;
+  }
+  50% {
+    left: 50%;
+    margin-left: 45px;
+  }
+  100% {
+    left: 50%;
+    margin-left: -75px;
+  }
+}
+
+@keyframes section-title-run-sm {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: 85px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+@media (min-width: 991px) {
+  .py-md-5-rem {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+}
+
+.mat-form-field{
+  display: inherit;
+}
+

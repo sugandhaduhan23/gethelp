@@ -1,0 +1,17 @@
+<mat-drawer-container [hasBackdrop]="true">
+    <mat-sidenav-container >
+        <mat-sidenav #sidenav mode="over" position="end" class="sidenav" [fixedInViewport]="'fixed'">
+            <div class="d-flex bg-warning align-items-center p-3">
+                <div class="text-light h5">NOTIFICATIONS</div>
+                <div class="ms-auto" (click)="sidenav.close()"><mat-icon>close</mat-icon></div>
+            </div>
+            <app-message (clicked)="sidenav.close()"></app-message>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <app-spinner *ngIf="loading"></app-spinner>
+            <app-header (clicked)="sidenav.toggle()"></app-header>
+            <router-outlet></router-outlet>
+            <app-footer></app-footer>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</mat-drawer-container>

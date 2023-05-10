@@ -1,0 +1,77 @@
+<ng-template #t let-fill="fill">
+    <i class="bi-heart-fill">
+        <i *ngIf="fill > 0" class="bi-heart-fill filled" [style.width.%]="fill"></i>
+    </i>
+</ng-template>
+
+<div class="container my-5 pt-5 col-12 col-lg-8">
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title>Create Review</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <form [formGroup]="reviewForm" #rf="ngForm" (ngSubmit)="addReview()">
+            <mat-card-content class="mt-4">
+                <div class="h5">Overall rating</div>
+                <br>
+                <ngb-rating formControlName="rating" [starTemplate]="t" [readonly]="false" [max]="5" [resettable]="true"
+                    class="mb-3"></ngb-rating>
+                <mat-error *ngIf="f['rating'].invalid" class="mb-3">
+                    <div *ngIf="f['rating'].errors?.['required']">Please rate your service</div>
+                </mat-error>
+                <mat-divider></mat-divider>
+                <div class="h5 mt-4">Add a headline</div>
+                <mat-form-field appearance="outline" class="w-100">
+                    <input matInput formControlName="heading" placeholder="What's the most important to know?" />
+                    <mat-error *ngIf="f['heading'].invalid">
+                        <div *ngIf="f['heading'].errors?.['required']">Add a heading</div>
+                    </mat-error>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+                <div class="h5 mt-4">Add a photo</div>
+                <div class="mt-2">Customers find images more helpful than text alone.</div>
+                <div class="margin-top-negative d-flex flex-wrap">
+                    <div *ngFor="let image of selectedPhotos; let i=index" class="position-relative">
+                        <img class="reviewPhotos" [src]="image">
+                        <mat-icon matSuffix class="text-light position-absolute removeImage"
+                            (click)="selectedPhotos.splice(i, 1)">cancel</mat-icon>
+                    </div>
+                    <img class="upload-icon" src="../../../assets/image/upload.png" (click)="file.click()">
+                    <input type="file" #file hidden (change)="onFileSelected($event)">
+                </div>
+                <mat-divider></mat-divider>
+                <div class="h5 mt-4">Add a written review</div>
+                <mat-form-field appearance="outline" class="w-100">
+                    <textarea matInput formControlName="content" rows="8"
+                        placeholder="What did you like or dislike?"></textarea>
+                    <mat-error *ngIf="f['content'].invalid">
+                        <div *ngIf="f['content'].errors?.['required']">Add a heading</div>
+                    </mat-error>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+                <div class="h5 mt-4">Choose your public name</div>
+                <div class="mt-2">This is how you’ll appear to other customers</div>
+                <mat-form-field appearance="outline" class="w-100">
+                    <input matInput formControlName="displayName" placeholder="Display Name" />
+                    <mat-error *ngIf="f['displayName'].invalid">
+                        <div *ngIf="f['displayName'].errors?.['required']">Add a display name</div>
+                    </mat-error>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-raised-button color="primary" class="text-light" type="submit"
+                    [disabled]="!reviewForm.valid">ADD</button>
+                <button mat-raised-button color="primary" class="text-light" type="button" (click)="navigateToProfile()" [disabled]="!submitted">VIEW
+                    REVIEW</button>
+            </mat-card-actions>
+            <div *ngIf="successMessage" #successAlert class="alert alert-success text-center mt-3 fade show"
+                role="alert">
+                {{successMessage}}
+            </div>
+        </form>
+        <mat-card-footer>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+    </mat-card>
+</div>

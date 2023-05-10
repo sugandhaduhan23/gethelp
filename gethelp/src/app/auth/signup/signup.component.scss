@@ -1,0 +1,28 @@
+.dash {
+  margin: 0px 2px;
+}
+
+.dash::before,
+.dash::after {
+  content: "";
+  display: block;
+  flex: 1 1;
+  background: black;
+  height: 1px;
+}
+
+.dash::before {
+  margin-right: 16px;
+}
+
+.dash::after {
+  margin-left: 16px;
+}
+
+::ng-deep .iti.iti--allow-dropdown{
+  width: 100%!important;
+}
+
+::ng-deep .iti input#country-search-box {
+  padding: 8px;
+}

@@ -1,0 +1,122 @@
+.navbar-dark .navbar-nav .nav-link {
+  position: relative;
+  margin-left: 25px;
+  padding: 35px 0;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  transition: 0.5s;
+}
+
+.sticky-top.navbar-dark .navbar-nav .nav-link {
+  padding: 20px 0;
+  color: var(--dark);
+}
+
+.navbar-dark .navbar-toggler {
+  color: var(--bs-warning) !important;
+  border-color: var(--bs-warning) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: var(--bs-warning);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  
+}
+.dropdown-menu {
+  float: right !important;
+  right: 0;
+  left: auto;
+
+}
+
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: var(--bs-warning) !important;
+}
+
+@media (max-width: 991px) {
+  .sticky-top.navbar-dark {
+    position: relative;
+    background: #ffffff;
+  }
+
+  .navbar-dark .navbar-nav .nav-link,
+  .navbar-dark .navbar-nav .nav-link.show,
+  .sticky-top.navbar-dark .navbar-nav .nav-link {
+    padding: 10px 0;
+    color: var(--dark);
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-dark {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid rgba(256, 256, 256, 0.1);
+    z-index: 999;
+  }
+
+  .sticky-top.navbar-dark {
+    position: fixed;
+    background: #ffffff;
+  }
+
+  .navbar-dark .navbar-nav .nav-link::before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 2px;
+    bottom: -1px;
+    left: 50%;
+    background: var(--bs-warning);
+    transition: 0.5s;
+  }
+
+  .navbar-dark .navbar-nav .nav-link:hover::before,
+  .navbar-dark .navbar-nav .nav-link.active::before {
+    width: 100%;
+    left: 0;
+  }
+
+  .navbar-dark .navbar-nav .nav-link.nav-contact::before {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-dark .navbar-nav .nav-link {
+    margin-left: 0px;
+  }
+}
+
+.navbar .nav-item .dropdown-menu {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  margin-top: 0;
+}
+.navbar .dropdown-menu.fade-down {
+  top: 80%;
+  transform: rotateX(-75deg);
+  transform-origin: 0% 0%;
+}
+.navbar .dropdown-menu.fade-up {
+  top: 180%;
+}
+.navbar .nav-item:hover .dropdown-menu {
+  transition: 0.3s;
+  opacity: 1;
+  visibility: visible;
+  top: 100%;
+  transform: rotateX(0deg);
+}

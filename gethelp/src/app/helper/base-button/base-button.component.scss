@@ -1,0 +1,28 @@
+$brandColor: #ffc107;
+$themeBlack: #000;
+
+button {
+    color: $brandColor;
+    border-color: $brandColor;
+    background-color: $themeBlack;
+    transition: 0.5s;
+    &:hover,
+    &:focus { 
+        border-color: $brandColor;
+        color: $themeBlack;
+    }
+
+    .mat-icon {
+        vertical-align: sub;
+        margin: 0 4px;
+    }
+
+    &:hover,
+    &:focus {
+    box-shadow: 
+        inset -4.5em 0 0 0 $brandColor,
+        inset 4.5em 0 0 0 $brandColor;  
+    }
+
+}
+

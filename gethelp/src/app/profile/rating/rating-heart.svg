@@ -1,0 +1,12 @@
+<svg *ngIf="isLoaded" class="d-inline-block heartbeat text-danger" width="30" height="18" viewBox="0 0 52 38" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient [attr.id]="'gradient-' + stopColor">
+        <stop offset="50%" [attr.stop-color]="startColor"/>
+        <stop offset="50%" [attr.stop-color]="stopColor"/>
+      </linearGradient>
+    </defs>
+    <path *ngIf="!showEmptyHeart" [attr.fill]="'url(#gradient-' + stopColor + ')'" d="M52,6.3c0.8-12.6-18.6-4-24.8,1.6c-0.4,0.4-1.1,0.4-1.5,0.1C9.9-2.7-2,1.5,0.3,10c1.5,5.6,16.2,20.4,25.5,27.7c0.4,0.3,1,0.3,1.4,0C36.7,29.5,51.2,19.1,52,6.3z"></path>
+    <path *ngIf="showEmptyHeart" [attr.fill]="'lightgray'" d="M52,6.3c0.8-12.6-18.6-4-24.8,1.6c-0.4,0.4-1.1,0.4-1.5,0.1C9.9-2.7-2,1.5,0.3,10c1.5,5.6,16.2,20.4,25.5,27.7c0.4,0.3,1,0.3,1.4,0C36.7,29.5,51.2,19.1,52,6.3z"></path>
+
+</svg>
+

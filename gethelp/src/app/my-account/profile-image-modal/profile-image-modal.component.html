@@ -1,0 +1,31 @@
+<div class="profile-image-modal-wrapper"
+  [ngClass]="{'is-inprogress': !!saveInProgress}">
+  <div class="loader"></div>
+  
+  <div class="overlay">
+    <h4 mat-dialog-title>Update Profile Picture</h4>
+
+    <div mat-dialog-content>
+      <form #form="ngForm" class="pt-5" (ngSubmit)="submitForm()">
+        <img id="output" [src]="data.path" alt="GetHelp Profile Picture" (error)="onImageLoadFailure($event)" />
+        <div class="file-upload-container">
+          <input type="file" accept="image/*" (change)="onFileSelected($event)">
+          <a mat-button color="primary" class="custom-input-text">
+            <mat-icon matSuffix class="brand">upload</mat-icon>
+            Browse File</a>
+
+        </div>
+        
+        <div mat-dialog-actions>
+          <button mat-button (click)="onNoClick()" color="warn" cdkFocusInitial>
+            <mat-icon matSuffix class="brand">cancel</mat-icon>Skip Update</button>
+          <button mat-button color="primary" type="submit">
+            <mat-icon matSuffix class="brand">upgrade</mat-icon>
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

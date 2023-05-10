@@ -1,0 +1,56 @@
+$brandColor: #ffc107;
+$themeBlack: #000;
+
+.profile-listing {
+  margin: 2em 0 0 0;
+
+  a {
+    text-decoration: none;
+  }
+
+  .p-5-rem{
+    padding-right: 5rem;
+  }
+
+  $profileImage: var(
+    --profileImage
+  ); //test only to share data from component to style
+
+  .header-profile-img {
+    background-color: var(--colorName);
+    background-size: cover;
+    height: 80px;
+    width:80px
+  }
+
+  .schedule-button {
+    align-items: flex-end;
+    color: $brandColor;
+    border-color: $brandColor;
+    background-color: $themeBlack;
+    transition: 0.5s;
+    width: 9em;
+    height: 3em;
+
+    &:hover,
+    &:focus {
+      border-color: $brandColor;
+      color: $themeBlack;
+    }
+
+    .mat-icon {
+      vertical-align: sub;
+      margin: 0 4px;
+    }
+  }
+
+  .schedule-button:hover,
+  .schedule-button:focus {
+    box-shadow: inset -4.5em 0 0 0 $brandColor, inset 4.5em 0 0 0 $brandColor;
+  }
+
+  .profile-bio {
+    max-width: 25em;
+  }
+
+}

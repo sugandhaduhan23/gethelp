@@ -1,0 +1,11 @@
+.margin-terms{
+    margin: 7rem 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media (max-width: 576px) {
+    .margin-terms{
+        margin: unset;
+        box-shadow: unset;
+    }
+}

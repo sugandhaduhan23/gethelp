@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Send Message</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <div class="row d-flex flex-column">
+            <mat-form-field appearance="outline">
+                <mat-label>Workorder</mat-label>
+                <input matInput formControlName="workOrderId">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Customer Name</mat-label>
+                <input matInput formControlName="customerName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Pro Name</mat-label>
+                <input matInput formControlName="proName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Message Title</mat-label>
+                <input matInput formControlName="customTitle">
+                <mat-error *ngIf="messageForm.controls['customTitle'].invalid">
+                    <div *ngIf="messageForm.controls['customTitle'].errors?.['required']">Title cannot be empty</div>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Message</mat-label>
+                <textarea rows="8" matInput formControlName="customMessage"></textarea>
+                <mat-error *ngIf="messageForm.controls['customMessage'].invalid">
+                    <div *ngIf="messageForm.controls['customMessage'].errors?.['required']">Message cannot be empty</div>
+                    <div *ngIf="messageForm.controls['customMessage'].errors?.['max']">250 characters limit reached</div>
+                    <div *ngIf="messageForm.controls['customMessage'].errors?.['maxLength']">250 characters limit reached
+                    </div>
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <mat-dialog-actions align="end">
+            <button mat-raised-button color="primary" class="text-light" mat-dialog-close type="submit">Send</button>
+            <button mat-raised-button class="text-warning" [mat-dialog-close]="true">Cancel</button>
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>

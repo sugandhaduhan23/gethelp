@@ -1,0 +1,340 @@
+<div class="my-account-container container col-12 col-md-8 col-lg-6">
+    <mat-accordion>
+        <form #baseAccountForm="ngForm" [formGroup]="myAccountForm" (ngSubmit)="saveProfileInfo()">
+            <mat-expansion-panel class="profile-panel" [expanded]="true" hideToggle (opened)="onProfileExpand()"
+                (closed)="onProfileCollapse()">
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        Profile
+                    </mat-panel-description>
+                    <mat-panel-title>
+                        <mat-icon matSuffix class="brand">badge</mat-icon>
+                    </mat-panel-title>
+                    <div class="profile-img-icon-wrapper">
+                        <img [src]="userInfo.profilePhoto" class="hy-profile-image" alt="profile picture"
+                            (error)="onImageLoadFailure($event)" />
+                    </div>
+                </mat-expansion-panel-header>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" placeholder="Placeholder">
+                        <mat-icon matSuffix class="grey">check</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                    <span class="profile-img-wrapper" >
+                        <img [src]="userInfo.profilePhoto" class="hy-profile-image" alt="editable profile picture"
+                            (error)="onImageLoadFailure($event)" />
+                        <a id="change-avatar" class="lx-btn" (click)="openImageUploadModal()">
+                            <mat-icon matSuffix class="grey">edit</mat-icon>
+                        </a>
+                    </span>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input readonly formControlName="email" aria-readonly matInput placeholder="Placeholder">
+                        <mat-icon class="grey" matSuffix>lock</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+
+                        <ngx-intl-tel-input class="w-100" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                            [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="15"
+                            [phoneValidation]="true" [separateDialCode]="false"
+                            [numberFormat]="PhoneNumberFormat.National" name="phoneNumber" formControlName="phoneNumber"
+                            [ngClass]="{'is-invalid': formField['phoneNumber'].invalid}">
+                        </ngx-intl-tel-input>
+                        <div class="invalid-feedback" *ngIf="formField['phoneNumber'].invalid">
+                            <div>Phone Number must be valid</div>
+                        </div>
+                        <input readonly formControlName="email" aria-readonly matInput hidden placeholder="Placeholder">
+                    </mat-form-field>
+                </p>
+
+                <button mat-button type="submit" [disabled]="!myAccountForm.dirty || !myAccountForm.valid"
+                    color="primary">
+                    <mat-icon>save_alt</mat-icon>
+                    Save Changes
+                </button>
+
+                <div class="user-metadata" *ngIf="userInfo.metadata">
+
+                    GetHelp Account since {{userInfo.metadata.creationTime || ''}}
+                    <br />
+                    Last logged in on {{userInfo.metadata.lastSignInTime || ''}}
+                </div>
+            </mat-expansion-panel>
+        </form>
+
+        <form #billingAccountForm="ngForm" [formGroup]="myAccountBillingForm" (ngSubmit)="saveBillingInfo()">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon class="brand" matSuffix>monetization_on</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Billing & Payments
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <p *ngIf="isProfessionalProfile">
+                    <mat-selection-list #selectedPayments color="primary" formControlName="selectedPayments"
+                        (selectionChange)="paymentOptionChange($event)">
+                        <mat-list-option value="{{paymentType.id}}" id="{{paymentType.id}}"
+                            *ngFor="let paymentType of paymentMethods">
+                            {{paymentType.name}}
+                        </mat-list-option>
+                    </mat-selection-list>
+                </p>
+
+                <div class="billing-summary">
+                    <h5>Amount {{isProfessionalProfile ? 'Earned' : 'spent' }} through GetHelp</h5>
+
+                    <span class="d-flex billing-container">
+                        <span class="by-time">
+                            <mat-card class="m-2 billing">
+                                <mat-card-header>Past Week</mat-card-header>
+                                <mat-card-content>
+                                    <span>$</span><span [countUp]="billingSummary.billingInPastWeek"
+                                        [options]="counterConfig"
+                                        class="amount past-week">{{billingSummary.billingInPastWeek.toFixed(2)}}</span>
+                                </mat-card-content>
+                            </mat-card>
+
+                            <mat-card class="m-2 billing ">
+                                <mat-card-header>Past Month</mat-card-header>
+                                <mat-card-content>
+                                    <span>$</span><span [countUp]="billingSummary.billingInPastMonth"
+                                        [options]="counterConfig"
+                                        class="amount past-month">{{billingSummary.billingInPastMonth.toFixed(2)}}</span>
+                                </mat-card-content>
+                            </mat-card>
+
+                            <mat-card class="m-2 billing">
+                                <mat-card-header>Past Year</mat-card-header>
+                                <mat-card-content>
+                                    <span>$</span> <span [countUp]="billingSummary.billingInPastYear"
+                                        [options]="counterConfig"
+                                        class="amount past-year">{{billingSummary.billingInPastYear.toFixed(2)}}</span>
+                                </mat-card-content>
+                            </mat-card>
+                        </span>
+
+                        <mat-card class="m-2 billing life-time">
+                            <mat-card-header>Lifetime</mat-card-header>
+                            <mat-card-content>
+                                <span>$</span><span [countUp]="billingSummary.lifeTime" [options]="counterConfig"
+                                    class="amount life-time">{{billingSummary.lifeTime.toFixed(2)}}</span>
+                            </mat-card-content>
+                        </mat-card>
+                    </span>
+                </div>
+
+                <button mat-button type="submit" [disabled]="!myAccountBillingForm.dirty || !myAccountBillingForm.valid"
+                    color="primary">
+                    <mat-icon>save_alt</mat-icon>
+                    Update Billing Info
+                </button>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon matSuffix class="brand">work_history</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Tasks History
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p class="task-history-info">
+                    <mat-card>
+                        <mat-icon class="--green">hourglass_bottom</mat-icon>
+                        <mat-card-content>Completed: <span [countUp]="taskHistory.completed.length"
+                                [options]="counterConfig">{{taskHistory.completed.length}}</span></mat-card-content>
+                    </mat-card>
+
+                    <mat-card>
+                        <mat-icon class="--yellow">hourglass_top</mat-icon>
+                        <mat-card-content>In Progress: <span [countUp]="taskHistory.inProgress.length"
+                                [options]="counterConfig">{{taskHistory.inProgress.length}}</span></mat-card-content>
+                    </mat-card>
+
+                    <mat-card>
+                        <mat-icon class="--grey">hourglass_empty</mat-icon>
+                        <mat-card-content>Not Started: <span [countUp]="taskHistory.created.length"
+                                [options]="counterConfig">{{taskHistory.created.length}}</span></mat-card-content>
+                    </mat-card>
+                    <mat-card>
+                        <mat-icon class="--red" theme="warning">hourglass_disabled</mat-icon>
+                        <mat-card-content>Cancelled: <span [countUp]="taskHistory.completed.length"
+                                [options]="counterConfig">{{taskHistory.completed.length}}</span></mat-card-content>
+                    </mat-card>
+                    <a class="order-history" href="/my-account/orderhistory">
+                        View your complete task history
+                        <mat-icon matSuffix class="brand">open_in_new</mat-icon>
+                    </a>
+                </p>
+
+            </mat-expansion-panel>
+        </form>
+
+        <form #serviceInfoAccountForm="ngForm" [formGroup]="myAccountServiceInfoForm" (ngSubmit)="saveServiceInfo()">
+            <mat-expansion-panel *ngIf="isProfessionalProfile" (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon matSuffix class="brand">work</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Service Information
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Bio</mat-label>
+                        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            formControlName="bio" placeholder="">
+                            </textarea>
+                        <mat-icon class="brand" matSuffix></mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>About your team</mat-label>
+                        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            formControlName="about" placeholder="">
+                            </textarea>
+                        <mat-icon class="brand" matSuffix></mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Area of Service</mat-label>
+                        <input matInput formControlName="servingLocations" matFormInput="servingLocations"
+                            placeholder="94581, 94588">
+                        <mat-icon class="brand" matSuffix>location_pin</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Hourly Rate</mat-label>
+                        <input matInput placeholder="$" type="number" formControlName="serviceCost">
+                        <mat-icon class="brand" matSuffix>payments</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Years in Business</mat-label>
+                        <input matInput placeholder="$" formControlName="yearsinbusiness">
+                        <mat-icon class="brand" matSuffix>history</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Team Size</mat-label>
+                        <input formControlName="employees" type="number" matInput placeholder="1">
+                        <mat-icon class="brand" matSuffix>users</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p *ngIf="categories?.length">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Service Categories</mat-label>
+                        <mat-select formControlName="selectedCategories" multiple>
+                            <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon class="brand" matSuffix>help</mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    Social
+                    <mat-form-field appearance="outline">
+                        <mat-label> {{socialConfig.fb.name}} </mat-label>
+                        <input matInput placeholder="Link to Profile" formControlName="socialFB">
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label> {{socialConfig.insta.name}}</mat-label>
+                        <input matInput placeholder="Link to Profile" formControlName="socialInsta">
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </p>
+
+                <mat-divider></mat-divider>
+                <div class="h5 mt-4">Featured Photos</div>
+                <div class="mt-4"><b>Showcase your photos from past work</b></div>
+                <div class="margin-top-negative d-flex flex-wrap">
+                    <div *ngFor="let image of selectedPhotos; let i=index" class="position-relative">
+                        <img class="review-photos" [src]="image" alt="images from past work">
+                        <mat-icon color="primary" matSuffix class="text-light position-absolute removeImage"
+                            (click)="selectedPhotos.splice(i, 1)">cancel</mat-icon>
+                    </div>
+                    <img class="upload-icon" src="../../../assets/image/upload.png" (click)="file.click()"
+                        alt="Upload Images">
+                    <input type="file" #file hidden (change)="onFileSelected($event)">
+                </div>
+
+                <button mat-button type="submit" [disabled]="!myAccountServiceInfoForm.valid" color="primary">
+                    <mat-icon>save_alt</mat-icon>
+                    Save Service Information
+                </button>
+
+            </mat-expansion-panel>
+        </form>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="reviews-section">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon matSuffix class="brand">favorite</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                    Reviews and Ratings
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="!reviews.length && !isProfessionalProfile">
+                You have not given any reviews yet.
+            </div>
+
+            <div *ngIf="!reviews.length && isProfessionalProfile">
+                <rating-heart class="rating-heart" [startColor]="'lightgray'" [stopColor]="'lightgray'" *ngFor="let item of [1,1,1,1,1] ; index as i">
+                </rating-heart>
+                <br>
+                <br>
+                You have not received any reviews yet.
+               
+            </div>
+
+            <div *ngIf="reviews.length">
+                <h5 *ngIf="!isProfessionalProfile">Reviews you have given</h5>
+                <h5 *ngIf="isProfessionalProfile">Reviews you have received</h5>
+                <app-review *ngFor="let review of reviews | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"
+                    [review]="review" [limit]=200>
+                </app-review>
+                <div *ngIf="reviews">
+                    <ngb-pagination class="d-flex justify-content-center" [pageSize]="pageSize"
+                        [collectionSize]="reviews.length" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

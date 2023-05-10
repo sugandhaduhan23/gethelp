@@ -1,0 +1,99 @@
+<section id="contact" class="contact py-3 py-md-5-rem">
+  <div class="container" data-aos="fade-down">
+
+    <div class="section section-title position-relative">
+      <p>Contact Us</p>
+    </div>
+
+    <div class="mt-3">
+      <iframe style="border:0; width: 100%; height: 400px;"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.971043706196!2d-121.93003348517222!3d37.48500967981322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fc6410c68eccd%3A0xf7a460a3e2e81812!2s161%20Mission%20Falls%20Ln%2C%20Fremont%2C%20CA%2094539!5e0!3m2!1sen!2sus!4v1675126127870!5m2!1sen!2sus"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <div class="row mt-5">
+
+      <div class="col-lg-4">
+        <div class="info">
+          <div class="address">
+            <i class="bi bi-geo-alt"></i>
+            <h4>Location:</h4>
+            <p>161 Mission Falls Lane, Fremont 94539, CA, USA</p>
+          </div>
+
+          <div class="email">
+            <i class="bi bi-envelope"></i>
+            <h4>Email:</h4>
+            <p>gethelp595@gmail.com</p>
+          </div>
+
+          <div class="phone">
+            <i class="bi bi-phone"></i>
+            <h4>Call:</h4>
+            <p>+1 510 678 6781</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-8 mt-5 mt-lg-0">
+        <form [formGroup]="helpForm"  #hp="ngForm" (ngSubmit)="sendEmail()" novalidate>
+         
+          <div class="row">
+           
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label>Your Name</mat-label>
+              <input matInput type="text" name="name" id="name" placeholder="Your Name" formControlName="name">
+              <mat-error *ngIf="f['name'].invalid">
+                <div *ngIf="f['name']?.errors?.['required']">Enter a name</div>
+              </mat-error>
+            </mat-form-field>
+           
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label>Your Email</mat-label>
+              <input type="email" matInput name="email" id="email" placeholder="Your Email" formControlName="email">
+              <mat-error *ngIf="f['email'].invalid">
+                <div *ngIf="f['email']?.errors?.['required']">Enter an email</div>
+                <div *ngIf="f['email']?.errors?.['email']">Email is invalid</div>
+              </mat-error>
+            </mat-form-field>
+         
+          </div>
+         
+          <mat-form-field appearance="outline" class="mt-3 col-12">
+            <mat-label>Subject</mat-label>
+            <input type="text" matInput name="subject" placeholder="Subject" formControlName="subject">
+            <mat-error *ngIf="f['subject'].invalid">
+              <div *ngIf="f['subject']?.errors?.['required']">Enter a subject</div>
+            </mat-error>
+          </mat-form-field>
+         
+          <mat-form-field appearance="outline" class="mt-3 col-12">
+            <mat-label>Message</mat-label>
+            <textarea matInput name="message" rows="5" placeholder="Message" formControlName="message"></textarea>
+            <mat-error *ngIf="f['message'].invalid">
+              <div *ngIf="f['message']?.errors?.['required']">Enter a message</div>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="text-center">
+            <button mat-raised-button color="primary" class="text-light" type="submit" [disabled]="!helpForm.valid">Send
+              Message
+            </button>
+          </div>
+
+          <div #successAlert class="alert alert-success text-center mt-3 fade" role="alert">
+            {{successMessage}}
+          </div>
+
+          <div #errorAlert class="alert alert-danger text-center mt-3 fade" role="alert">
+            {{errorMessage}}
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</section>
